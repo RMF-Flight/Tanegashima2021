@@ -12,13 +12,14 @@ import motor
 import mycamera
 import cv2
 
+
+### セットアップ ###
+
 # インスタンス生成
 bmx = bmx055.Bmx055()
 gps = micropyGPS.MicropyGPS(9, 'dd')
 mtr = motor.Motor(20, 21, 12, 19, 26, 13)
 camera = mycamera.MyCamera()
-
-# シリアル通信のためのインスタンス生成
 ser = serial.Serial('/dev/serial0', 9600, timeout=10)
 
 # GPSオブジェクトを更新するスレッドを起動
@@ -36,6 +37,9 @@ def rungps():
 gpsthread = threading.Thread(target=rungps, args=())
 gpsthread.daemon = True
 gpsthread.start()
+
+
+### 関数の定義 ###
 
 # 落下検知
 def is_falling_began(path='./pictures/0.jpg', grayscale_threshold=128, size_threshold=0.9):
@@ -149,6 +153,8 @@ def head_toward_distination_using_camera(i):
     mtr.stop()
     return area
 
+
+### メインの処理 ###
 
 #　目的地の設定
 destination = np.array([0, 0])
